@@ -11,12 +11,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140516221221) do
+ActiveRecord::Schema.define(version: 20140805194129) do
 
   create_table "categories", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "followables", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "followed_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "followings", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "followed_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "invites", force: true do |t|
+    t.string   "friend_name"
+    t.string   "friend_email"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "message"
+    t.string   "token"
+  end
+
+  create_table "queue_items", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "video_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reviews", force: true do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "video_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "rating"
   end
 
   create_table "users", force: true do |t|
@@ -25,6 +66,7 @@ ActiveRecord::Schema.define(version: 20140516221221) do
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "token"
   end
 
   create_table "videos", force: true do |t|
@@ -32,9 +74,9 @@ ActiveRecord::Schema.define(version: 20140516221221) do
     t.string   "description"
     t.string   "small_cover_url"
     t.string   "large_cover_url"
-    t.integer  "category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "category_id"
   end
 
 end

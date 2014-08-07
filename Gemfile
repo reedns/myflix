@@ -10,14 +10,20 @@ gem 'uglifier'
 gem 'jquery-rails'
 gem 'bootstrap_form'
 gem 'bcrypt-ruby', '~> 3.1.2'
+gem 'fabrication'
+gem 'faker'
+gem 'sidekiq'
+gem 'unicorn'
+gem 'foreman'
+gem 'sentry-raven'
 
 group :development do
   gem 'sqlite3'
-  gem 'pry'
   gem 'pry-nav'
   gem 'thin'
   gem "better_errors"
   gem "binding_of_caller"
+  gem "letter_opener"
 end
 
 group :production do
@@ -27,8 +33,13 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'pry'
 end
 
 group :test do
   gem 'shoulda-matchers'
+  gem 'capybara'
+  gem 'launchy', '~> 2.4.2'
+  gem 'database_cleaner'
+  gem 'capybara-email'
 end
