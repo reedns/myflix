@@ -1,7 +1,7 @@
 require "spec_helper"
 
 feature "invite a friend to join" do
-  scenario "user sends an invite to a friend and the friend registers" do
+  scenario "user sends an invite to a friend and the friend registers", :vcr do
     sam = Fabricate(:user)
     sign_in(sam)
     

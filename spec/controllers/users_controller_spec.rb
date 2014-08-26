@@ -17,38 +17,38 @@ describe UsersController do
     context "with valid input" do
       before { post :create, user: Fabricate.attributes_for(:user) }
           
-      it "saves new user to the database" do
+      it "saves new user to the database", :vcr do
         expect(User.count).to eq(1)
       end
 
-      it "redirects to the home page" do
+      it "redirects to the home page", :vcr do
         expect(response).to redirect_to home_path
       end
 
-      it "assigns @user variable" do
+      it "assigns @user variable", :vcr do
         expect(assigns(:user)).to be_instance_of(User)
       end
 
-      it "sets notice" do
+      it "sets notice", :vcr do
         expect(flash[:notice]).to_not be_blank
       end
 
-      it "puts the user in the session" do
+      it "puts the user in the session", :vcr do
         expect(session[:user_id]).to eq(User.first.id)
       end
 
       context "sending email" do
         after { ActionMailer::Base.deliveries.clear }
 
-        it "sends out welcome email" do
+        it "sends out welcome email", :vcr do
           expect(ActionMailer::Base.deliveries).to_not be_empty
         end
 
-        it "sends email to the correct recipient" do
+        it "sends email to the correct recipient", :vcr do
           expect(ActionMailer::Base.deliveries.last.to).to eq([User.first.email])
         end
 
-        it "sends email with the correct message" do
+        it "sends email with the correct message", :vcr do
           expect(ActionMailer::Base.deliveries.last.body).to include(User.first.fullname)
         end
       end
@@ -62,15 +62,15 @@ describe UsersController do
           @sally = User.find(3)
         end
 
-        it "creates a following where the user follows the inviter" do   
+        it "creates a following where the user follows the inviter", :vcr do   
           expect(john.followers).to eq([@sally])
         end
 
-        it "creates a following the inviter follows the user" do
+        it "creates a following the inviter follows the user", :vcr do
           expect(@sally.followers).to eq([john])
         end
 
-        it "expires the invite after acceptance" do
+        it "expires the invite after acceptance", :vcr do
           get :new_with_invite_token, token: invite.token
           expect(response).to redirect_to expired_token_path
         end
@@ -81,15 +81,15 @@ describe UsersController do
       after { ActionMailer::Base.deliveries.clear }
       before { post :create, user: { fullname: nil, email: nil, password: nil }}
     
-      it "does not save new user to the database" do
+      it "does not save new user to the database", :vcr do
         expect(User.count).to eq(0)
       end
 
-      it "renders the :new template" do
+      it "renders the :new template", :vcr do
         expect(response).to render_template  :new
       end
 
-      context "sending email" do
+      context "sending email", :vcr do
         it "does not send out welcome email" do
           expect(ActionMailer::Base.deliveries).to be_empty
         end
