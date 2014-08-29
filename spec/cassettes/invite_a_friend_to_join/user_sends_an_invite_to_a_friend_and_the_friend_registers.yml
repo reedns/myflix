@@ -5,7 +5,7 @@ http_interactions:
     uri: https://api.stripe.com/v1/charges
     body:
       encoding: US-ASCII
-      string: amount=999&currency=usd
+      string: amount=999&currency=usd&card=tok_14WttCL7kTE3NNu4QrrdQSmk
     headers:
       Accept:
       - '*/*; q=0.5, application/xml'
@@ -22,20 +22,20 @@ http_interactions:
         Reed-Nelson-Saunderss-MacBook-Pro.local 13.3.0 Darwin Kernel Version 13.3.0:
         Tue Jun  3 21:27:35 PDT 2014; root:xnu-2422.110.17~1/RELEASE_X86_64 x86_64"}'
       Content-Length:
-      - '23'
+      - '57'
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 200
+      message: OK
     headers:
       Server:
       - nginx
       Date:
-      - Tue, 26 Aug 2014 19:46:55 GMT
+      - Fri, 29 Aug 2014 18:14:24 GMT
       Content-Type:
       - application/json;charset=utf-8
       Content-Length:
-      - '122'
+      - '1198'
       Access-Control-Allow-Credentials:
       - 'true'
       Access-Control-Allow-Methods:
@@ -52,11 +52,56 @@ http_interactions:
       encoding: UTF-8
       string: |
         {
-          "error": {
-            "type": "invalid_request_error",
-            "message": "You must supply either a card or a customer id"
-          }
+          "id": "ch_14WttEL7kTE3NNu4VDJHXDVf",
+          "object": "charge",
+          "created": 1409336064,
+          "livemode": false,
+          "paid": true,
+          "amount": 999,
+          "currency": "usd",
+          "refunded": false,
+          "card": {
+            "id": "card_14WttCL7kTE3NNu4HlTUZOCF",
+            "object": "card",
+            "last4": "4242",
+            "brand": "Visa",
+            "funding": "credit",
+            "exp_month": 4,
+            "exp_year": 2018,
+            "fingerprint": "Ssu5Jh4iPDQy1bnj",
+            "country": "US",
+            "name": null,
+            "address_line1": null,
+            "address_line2": null,
+            "address_city": null,
+            "address_state": null,
+            "address_zip": null,
+            "address_country": null,
+            "cvc_check": "pass",
+            "address_line1_check": null,
+            "address_zip_check": null,
+            "customer": null
+          },
+          "captured": true,
+          "refunds": {
+            "object": "list",
+            "total_count": 0,
+            "has_more": false,
+            "url": "/v1/charges/ch_14WttEL7kTE3NNu4VDJHXDVf/refunds",
+            "data": []
+          },
+          "balance_transaction": "txn_14WttEL7kTE3NNu4eSiaIV6b",
+          "failure_message": null,
+          "failure_code": null,
+          "amount_refunded": 0,
+          "customer": null,
+          "invoice": null,
+          "description": null,
+          "dispute": null,
+          "metadata": {},
+          "statement_description": null,
+          "receipt_email": null
         }
     http_version: 
-  recorded_at: Tue, 26 Aug 2014 19:46:56 GMT
+  recorded_at: Fri, 29 Aug 2014 18:14:24 GMT
 recorded_with: VCR 2.9.2

@@ -40,8 +40,6 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'pry'
-  gem 'vcr'
-  gem 'webmock'
 end
 
 group :test do
@@ -50,4 +48,7 @@ group :test do
   gem 'launchy', '~> 2.4.2'
   gem 'database_cleaner'
   gem 'capybara-email'
+  gem 'vcr'
+  gem 'webmock'
+  gem 'selenium-webdriver'
 end

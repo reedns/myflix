@@ -1,7 +1,7 @@
 require "spec_helper"
 
 feature "invite a friend to join" do
-  scenario "user sends an invite to a friend and the friend registers", :vcr do
+  scenario "user sends an invite to a friend and the friend registers", { js: true, vcr: true } do
     sam = Fabricate(:user)
     sign_in(sam)
     
@@ -20,6 +20,7 @@ feature "invite a friend to join" do
     fill_in "Friend's Email", with: "sally@test.com"
     fill_in "Invitation Message", with: "Please join!"
     click_button "Send Invitation"
+    sign_out
   end
 
   def friend_accepts_invitation
@@ -27,11 +28,15 @@ feature "invite a friend to join" do
     current_email.click_link "Accept Invitation"
     fill_in "Password", with: "password"
     fill_in "Full Name", with: "Sally Anderson"
+    fill_in "credit-card-number", with: "4242424242424242"
+    fill_in "security-code", with: "341"
+    select "4 - April", from: "date_month"
+    select "2018", from: "date_year"
     click_button "Sign Up"
   end
 
   def friend_should_follow(user)
-    visit people_path
+    click_link "People"
     expect(page).to have_content user.fullname
     sign_out
   end

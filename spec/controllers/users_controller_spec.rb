@@ -14,8 +14,13 @@ describe UsersController do
   end
 
   describe "POST create" do
-    context "with valid input" do
-      before { post :create, user: Fabricate.attributes_for(:user) }
+    context "with valid user input and credit card" do
+      before do
+        charge = double("charge")
+        charge.stub(:successful?).and_return(true)
+        StripeWrapper::Charge.stub(:create).and_return(charge)
+        post :create, user: Fabricate.attributes_for(:user), token: "123"
+      end
           
       it "saves new user to the database", :vcr do
         expect(User.count).to eq(1)
@@ -77,9 +82,16 @@ describe UsersController do
       end
     end
 
-    context "with invalid input" do
+    context "with invalid user input" do
       after { ActionMailer::Base.deliveries.clear }
-      before { post :create, user: { fullname: nil, email: nil, password: nil }}
+      
+      before do
+        charge = double("charge")
+        charge.stub(:successful?).and_return(false)
+        charge.stub(:error_message).and_return("Credit card declined.")
+        StripeWrapper::Charge.stub(:create).and_return(charge)
+        post :create, user: { fullname: nil, email: nil, password: nil }
+      end
     
       it "does not save new user to the database", :vcr do
         expect(User.count).to eq(0)
@@ -89,12 +101,44 @@ describe UsersController do
         expect(response).to render_template  :new
       end
 
+      it "sends out the correct error message" do
+        expect(flash[:danger]).to eq("Please fix the errors below.")
+      end
+
       context "sending email", :vcr do
         it "does not send out welcome email" do
           expect(ActionMailer::Base.deliveries).to be_empty
         end
       end
-    end  
+    end 
+
+    context "with valid user input and invalid credit card" do
+      after { ActionMailer::Base.deliveries.clear }
+
+      before do
+        charge = double('charge')
+        charge.stub(:successful?).and_return(false)
+        charge.stub(:error_message).and_return("Your card was declined.")
+        StripeWrapper::Charge.stub(:create).and_return(charge)
+        post :create, user: Fabricate.attributes_for(:user), token: "123"
+      end
+
+      it "does not save the new user to the database", :vcr do
+        expect(User.count).to eq(0)
+      end
+
+      it "renders the :new template" do
+        expect(response).to render_template :new
+      end
+
+      it "sends out the credit card error message" do
+        expect(flash[:danger]).to eq("Your card was declined.")
+      end
+
+      it "does not send out welcome email" do
+        expect(ActionMailer::Base.deliveries).to be_empty
+      end
+    end 
   end
 
   describe "GET show" do
