@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
   end
 
   def video_in_queue?(video)
-    queue_items.ids.include?(video.id)
+    self.queue_items.where(video_id: video.id).first
   end
 
   def can_follow?(another_user)

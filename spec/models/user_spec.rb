@@ -16,13 +16,14 @@ describe User do
 
 
 
-  describe "in_video_queue?(video)" do
+  describe "video_in_queue?(video)" do
     let(:jim) { Fabricate(:user) }
     let(:video) { Fabricate(:video) }
+    let(:other_vid) { Fabricate(:video) }
 
     it "returns true if video is in user queue" do  
-      queue_item = Fabricate(:queue_item, user: jim, video: video)
-      expect(jim.video_in_queue?(video)).to be_true
+      queue_item = Fabricate(:queue_item, user: jim, video: other_vid)
+      expect(jim.video_in_queue?(other_vid)).to be_true
     end
     
     it "returns false if video is not in user queue" do
