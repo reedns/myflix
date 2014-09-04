@@ -8,7 +8,6 @@ module StripeWrapper
     end
 
     def self.create(options={})
-      StripeWrapper.api_key
       begin
         response = Stripe::Charge.create(
           amount: options[:amount], 
@@ -16,22 +15,18 @@ module StripeWrapper
           card: options[:card],
           description: options[:description]
         )
-        new(response, :sucess)
+        new(response, :success)
       rescue Stripe::CardError => e
         new(e.message, :error)
       end
     end
 
     def successful?
-      status != :error
+      status == :success
     end
 
     def error_message
       response
     end
-  end
-
-  def self.api_key 
-    Stripe.api_key = ENV["STRIPE_SECRET_KEY"]
   end
 end

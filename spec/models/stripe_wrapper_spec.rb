@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe StripeWrapper do
   describe StripeWrapper::Charge do
-    before { StripeWrapper.api_key }
-
+    
     describe ".create" do
       let(:token) do 
         Stripe::Token.create(
