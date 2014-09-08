@@ -52,10 +52,4 @@ feature "user interacts with the queue" do
   def expect_position_in_queue(video, position)
     expect(find("#video_#{video.id}").value).to eq(position.to_s)
   end
-
-
-
-  #scenario "user goes to my queue page and the video is in the queue"
-  #scenario "from the queue the user goes to video show page by clicking on video"
-  #scenario "the video show page will not have the add to queue button when the video is already in the queue"
 end
