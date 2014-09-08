@@ -1,7 +1,7 @@
 require "spec_helper"
 
 feature "invite a friend to join" do
-  scenario "user sends an invite to a friend and the friend registers", { js: true, vcr: true } do
+  scenario "user sends an invite to a friend and the friend registers", { js: true, vcr: true, selenium: true } do
     sam = Fabricate(:user)
     sign_in(sam)
     
@@ -33,6 +33,7 @@ feature "invite a friend to join" do
     select "4 - April", from: "date_month"
     select "2018", from: "date_year"
     click_button "Sign Up"
+    expect(page).to have_content "Welcome, Sally Anderson"
   end
 
   def friend_should_follow(user)
