@@ -74,6 +74,9 @@ RSpec.configure do |config|
   end
 end
 
+
+Capybara.javascript_driver = :webkit
+
 Capybara.server_port = 52662
 
 Sidekiq::Testing.inline!
