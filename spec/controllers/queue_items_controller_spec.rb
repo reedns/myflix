@@ -53,7 +53,7 @@ describe QueueItemsController do
         end
 
         it "sends the notice" do
-          expect(flash[:notice]).to_not be_blank
+          expect(flash[:success]).to_not be_blank
         end
 
         it "redirects to my queue path" do
@@ -72,7 +72,7 @@ describe QueueItemsController do
         end
 
         it "sends the notice" do
-          expect(flash[:error]).to_not be_blank
+          expect(flash[:danger]).to_not be_blank
         end
 
         it "renders the video show template" do
