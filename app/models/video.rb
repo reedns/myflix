@@ -13,9 +13,11 @@ class Video < ActiveRecord::Base
     where("title LIKE ?", "%#{search_term}%").order("created_at DESC")
   end
 
+  def decorator
+    VideoDecorator.new(self)
+  end
+
   def calculate_rating
-    return "Be the first to rate this video!" if reviews.empty?
-    
     total = 0.0
     reviews.each do |review|
       total += review.rating.to_f
