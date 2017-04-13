@@ -1,4 +1,4 @@
-##Myflix
+## Myflix
 
 This is a practice app that is part of Tealeaf Academy's Build Robust and Production Quality Applications course.  It is a fake video streaming app with many features that introduced me to more advanced rails topics. Including:
 
